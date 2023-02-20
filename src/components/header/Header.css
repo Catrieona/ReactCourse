@@ -1,0 +1,27 @@
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(50,113,158);
+  align-items: center;
+  height:20vh;
+}
+.header-container__info-container {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.header-container__info-author {
+  font-weight: 500;
+  font-size: 20px;
+  color: white;
+  margin-right: 50px;
+}
+
+.header-container__logout-button {
+  background-color: rgb(6237,180,28);
+  border-radius: 7px;
+  color: white;
+}

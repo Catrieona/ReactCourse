@@ -1,0 +1,28 @@
+.course-card__container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    padding: 25px;
+    box-sizing: border-box;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.course-card__creation-info-container {
+    width: 35%;
+}
+.course-card__description-block {
+    width: 55%;
+}
+
+.course-card__description {
+    margin-top: 15px;
+    text-align: justify;
+}
+
+.course-card__creation-info {
+    margin-bottom: 10px;
+}
+
+.course-card__show-course-button {
+    margin-top: 15px;
+}
