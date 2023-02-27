@@ -1,4 +1,3 @@
 export interface SearchBarProps {
-  setCoursesList: any;
-  coursesList: any;
+  handleSearch: (search: string) => void;
 }

@@ -14,6 +14,23 @@ function App() {
   };
   const [coursesList, setCoursesList] = useState(mockedCoursesList);
   const [authorsList, setAuthorsList] = useState(mockedAuthorsList);
+  const [renderCoursesList, setRenderCoursesList] = useState(mockedCoursesList);
+  const handleSearch = (searchItem) => {
+    setCoursesList(() => {
+      if (!searchItem.length) {
+        setRenderCoursesList(mockedCoursesList);
+      } else {
+        setRenderCoursesList(
+          mockedCoursesList.filter((course) => {
+            return course.title
+              .toLowerCase()
+              .includes(searchItem.toLowerCase());
+          })
+        );
+      }
+    });
+  };
+
   return (
     <div className='course-info-page'>
       <Header />
@@ -27,10 +44,7 @@ function App() {
       ) : (
         <>
           <div className='course-info__search-block'>
-            <SearchBar
-              coursesList={coursesList}
-              setCoursesList={setCoursesList}
-            />
+            <SearchBar handleSearch={handleSearch} />
           </div>
           <div className='course-info__add-new-course-block'>
             <Button
@@ -39,7 +53,7 @@ function App() {
               text='Add new Course'
             />
           </div>
-          <Courses coursesList={coursesList} authorsList={authorsList} />
+          <Courses coursesList={renderCoursesList} authorsList={authorsList} />
         </>
       )}
     </div>
