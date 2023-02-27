@@ -1,0 +1,111 @@
+
+.create-course__form {
+    padding: 40px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.create-course__button-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.create-course__button-container .create-course__add-new-course-button {
+    height: 40px;
+    color: white;
+    background-color: rgb(237,180,28);
+    border-radius: 7px;
+    margin: 30px 0px;
+}
+
+input, label, textarea {
+    display:block;
+}
+.create-course__description-block {
+    border: 1px solid rgb(227,229,228);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.create-course__description-block label {
+    margin: 15px 0;
+}
+
+.create-course__description-block textarea {
+    width: 80%;
+}
+
+.create-course__info-block {
+    border: 1px solid rgb(227,229,228);
+}
+
+.create-course__author-container,
+.create-course__current-course-data {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.create-course__author-container {
+    border-bottom: 1px solid rgb(227,229,228);
+}
+
+.create-course__info-block {
+   min-height: 500px;
+}
+
+.create-course__current-course-data {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.create-course__create-author-block,
+.create-course__current-author-block,
+.create-course__current-course-duration-block,
+.create-course__current-course-authors-block
+{
+   width: 45%;
+}
+
+
+.error {
+    border: 1px solid red;
+}
+
+.error-authors {
+    color: red;
+}
+
+.create-course__add-author-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: self-end;
+}
+
+.create-course__title {
+    margin: 10px 0 30px 0;
+    text-align: center;
+}
+
+.create-course__add-author-block {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.create-course__input {
+    padding: 10px;
+    color: lightslategrey;
+}
+
+.create-course__current-course-duration {
+    margin-top: 25px;
+}
+
+.create-course__current-course-authors-empty {
+    margin: 0 auto;
+}
