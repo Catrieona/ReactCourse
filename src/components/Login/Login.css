@@ -1,0 +1,32 @@
+.course-input {
+    padding: 10px;
+    display: block;
+}
+.course-input__block {
+    margin-bottom: 10px;
+}
+
+.course-login-form {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    margin: 30px auto;
+    width: 50%;
+    padding: 30px
+}
+
+.course-login-form__title {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.course-login-form__submit {
+    margin: 30px 0 ;
+}
+
+.course-login-form__nav-block {
+   text-align: center;
+}
+
+.error-modal {
+    position: absolute;
+    background-color: red;
+}

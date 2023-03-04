@@ -1,0 +1,29 @@
+.error-modal {
+    position: absolute;
+    pointer-events: none;
+    background-color: rgba(232, 232, 232, 0.8);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.error-modal__container {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    min-width: 300px;
+    padding: 30px;
+    background-color: rgb(50,113,158);
+
+}
+
+.error-modal__title {
+    magrin-bottom: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+.error-modal__text {
+    color: white;
+}

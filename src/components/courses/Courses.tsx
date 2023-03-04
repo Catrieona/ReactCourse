@@ -7,6 +7,7 @@ function Courses({ coursesList, authorsList }) {
       {coursesList.map((course) => (
         <CourseCard
           key={course.id}
+          id={course.id}
           description={course.description}
           title={course.title}
           authors={course.authors}
