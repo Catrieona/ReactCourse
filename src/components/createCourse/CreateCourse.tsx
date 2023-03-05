@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
-import Button from '../../common/Button';
+import Button from '../../common/Button/Button';
 import './CreateCourse.css';
 import { CreateCourseProps } from './CreateCourse.types';
 import { getCourseDuration } from '../../helpers/getCourseDuration';
+import { mockedCoursesList, mockedAuthorsList } from '../../mocks';
+import { useNavigate } from 'react-router-dom';
 
-const CreateCourse: React.FC<CreateCourseProps> = ({
-  setCoursesList,
-  setAuthorsList,
-  setCreateMode,
-  authorsList,
-}) => {
+const CreateCourse: React.FC<CreateCourseProps> = () => {
+  const navigate = useNavigate();
+
+  const [coursesList, setCoursesList] = useState(mockedCoursesList);
+  const [authorsList, setAuthorsList] = useState(mockedAuthorsList);
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [courseAuthors, setCourseAuthors] = useState([]);
   const [newAuthor, setNewAuthor] = useState('');
-  const [duration, setDuration] = useState(null);
+  const [duration, setDuration] = useState('');
 
   const [errors, setErrors] = useState({
     title: false,
@@ -97,7 +99,7 @@ const CreateCourse: React.FC<CreateCourseProps> = ({
 
       return prev.concat(newCourseItem);
     });
-    setCreateMode(false);
+    navigate('/courses');
   };
 
   const handleAddAuthors = (author) => {

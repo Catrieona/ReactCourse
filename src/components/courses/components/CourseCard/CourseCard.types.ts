@@ -1,4 +1,5 @@
 export interface CourseCardProps {
+  id: any;
   title: string;
   description: string;
   creationDate: string;
