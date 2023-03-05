@@ -3,7 +3,11 @@ import './ErrorModal.css';
 import { ErrorModalProps } from './ErrorModal.types';
 import Button from '../../../../common/Button/Button';
 
-const ErrorModal: React.FC<ErrorModalProps> = ({ errors }) => {
+const ErrorModal: React.FC<ErrorModalProps> = ({ errors, setErrors }) => {
+  const handleCancelModal = () => {
+    setErrors([]);
+  };
+
   return (
     <div className='error-modal'>
       <div className='error-modal__container'>
@@ -14,7 +18,7 @@ const ErrorModal: React.FC<ErrorModalProps> = ({ errors }) => {
           </p>
         ))}
 
-        <Button text='OK' />
+        <Button onClick={handleCancelModal} text='OK' />
       </div>
     </div>
   );

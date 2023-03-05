@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
+import ErrorModal from '../courses/components/ErrorModal/ErrorModal';
 import Header from '../header/Header';
 import Button from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
 import './Login.css';
 import { LoginProps } from './Login.types';
-import ErrorModal from '../courses/components/ErrorModal/ErrorModal';
 
 const Login: React.FC<LoginProps> = () => {
   const [loginForm, setLoginForm] = useState({
@@ -77,10 +76,9 @@ const Login: React.FC<LoginProps> = () => {
           </p>
         </div>
       </form>
-      {/*<div className='error-modal'>*/}
-      {/*  {errors.length > 0 && <ErrorModal errors={errors} />}*/}
-      {/*</div>*/}
-      {/*<ErrorModal errors={errors} />*/}
+      {errors.length > 0 && (
+        <ErrorModal errors={errors} setErrors={setErrors} />
+      )}
     </>
   );
 };
