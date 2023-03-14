@@ -76,7 +76,7 @@ const Login: React.FC<LoginProps> = () => {
           </p>
         </div>
       </form>
-      {errors.length > 0 && (
+      {errors?.length > 0 && (
         <ErrorModal errors={errors} setErrors={setErrors} />
       )}
     </>
