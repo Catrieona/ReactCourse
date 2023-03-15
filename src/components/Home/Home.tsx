@@ -15,45 +15,6 @@ function Home({ coursesList, authorsList }) {
     navigate('/courses/add');
   };
 
-  // useEffect(() => {
-  // const allCourses = fetch('http://localhost:4000/courses/all', {
-  //   method: 'GET',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  // });
-  //
-  // const allAuthors = fetch('http://localhost:4000/authors/all', {
-  //   method: 'GET',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  // });
-
-  //   async function fetchData() {
-  //     const result = (
-  //       await Promise.all([
-  //         fetch('http://localhost:4000/courses/all', {
-  //           method: 'GET',
-  //           headers: {
-  //             'Content-Type': 'application/json',
-  //           },
-  //         }),
-  //         fetch('http://localhost:4000/authors/all', {
-  //           method: 'GET',
-  //           headers: {
-  //             'Content-Type': 'application/json',
-  //           },
-  //         }),
-  //       ])
-  //     ).map((r) => r.json());
-  //     const [courses, authors] = await Promise.all(result);
-  //     dispatch({ type: 'SET_COURSES', payload: courses.result });
-  //     dispatch({ type: 'SET_AUTHORS', payload: authors.result });
-  //   }
-  //   fetchData();
-  // }, []);
-
   const handleSearch = (searchItem) => {
     // setCoursesList(() => {
     //   if (!searchItem.length) {
@@ -87,11 +48,5 @@ function Home({ coursesList, authorsList }) {
     </div>
   );
 }
-const mapStateToProps = (store) => {
-  return {
-    coursesList: store.courses.coursesList,
-    authorsList: store.authors.authorsList,
-  };
-};
 
-export default connect(mapStateToProps)(Home);
+export default Home;

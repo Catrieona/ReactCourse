@@ -122,15 +122,6 @@ const CreateCourse: React.FC<CreateCourseProps> = ({ authorsList }) => {
       }));
       return;
     }
-    //
-    // setAuthorsList((prev) => {
-    //   if (!prev.find((aut) => aut.name === newAuthor)) {
-    //     return prev.concat({ name: newAuthor, id: newAuthor + Date.now() });
-    //   } else {
-    //     return prev;
-    //   }
-    // });
-    // setNewAuthor('');
   };
 
   const handleNewAuthor = (event) => {

@@ -12,16 +12,6 @@ const CourseInfo: React.FC<CourseInfoProps> = ({
   const { id } = useParams();
   const [course, setCourse] = useState({});
   useEffect(() => {
-    // const getCourse = fetch('http://localhost:4000/courses/' + id, {
-    //   method: 'GET',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    // });
-    //
-    // getCourse
-    //   .then((response) => response.json())
-    //   .then((data) => setCourse(data.result));
     const currentCourse = coursesList.find((crs) => crs.id === id);
     setCourse(currentCourse || {});
   }, []);
