@@ -3,14 +3,11 @@ import Button from '../../common/Button/Button';
 import './CreateCourse.css';
 import { CreateCourseProps } from './CreateCourse.types';
 import { getCourseDuration } from '../../helpers/getCourseDuration';
-import { mockedCoursesList, mockedAuthorsList } from '../../mocks';
 import { useNavigate } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-const CreateCourse: React.FC<CreateCourseProps> = () => {
+const CreateCourse: React.FC<CreateCourseProps> = ({ authorsList }) => {
   const navigate = useNavigate();
-
-  const [coursesList, setCoursesList] = useState(mockedCoursesList);
-  const [authorsList, setAuthorsList] = useState(mockedAuthorsList);
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -87,19 +84,24 @@ const CreateCourse: React.FC<CreateCourseProps> = () => {
     });
     const today = new Date('03/25/2015');
 
-    setCoursesList((prev) => {
-      const newCourseItem = {
-        id: Date.now(),
-        title,
-        description,
-        creationDate: today.toLocaleDateString(),
-        duration,
-        authors: courseAuthorsId,
-      };
+    const newCourseItem = {
+      id: Date.now(),
+      title,
+      description,
+      creationDate: today.toLocaleDateString(),
+      duration,
+      authors: courseAuthorsId,
+    };
 
-      return prev.concat(newCourseItem);
+    fetch('http://localhost:4000/courses/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newCourseItem),
+    }).then(() => {
+      navigate('/courses');
     });
-    navigate('/courses');
   };
 
   const handleAddAuthors = (author) => {
@@ -120,15 +122,15 @@ const CreateCourse: React.FC<CreateCourseProps> = () => {
       }));
       return;
     }
-
-    setAuthorsList((prev) => {
-      if (!prev.find((aut) => aut.name === newAuthor)) {
-        return prev.concat({ name: newAuthor, id: newAuthor + Date.now() });
-      } else {
-        return prev;
-      }
-    });
-    setNewAuthor('');
+    //
+    // setAuthorsList((prev) => {
+    //   if (!prev.find((aut) => aut.name === newAuthor)) {
+    //     return prev.concat({ name: newAuthor, id: newAuthor + Date.now() });
+    //   } else {
+    //     return prev;
+    //   }
+    // });
+    // setNewAuthor('');
   };
 
   const handleNewAuthor = (event) => {
@@ -279,4 +281,7 @@ const CreateCourse: React.FC<CreateCourseProps> = () => {
   );
 };
 
-export default CreateCourse;
+const mapStateToProps = (store) => ({
+  authorsList: store.authors.authorsList,
+});
+export default connect(mapStateToProps)(CreateCourse);

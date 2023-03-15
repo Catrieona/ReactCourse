@@ -6,43 +6,53 @@ import SearchBar from '../searchBar/SearchBar';
 import Button from '../../common/Button/Button';
 import Courses from '../courses/Courses';
 import './Home.css';
+import { useDispatch, connect } from 'react-redux';
 
-function Home() {
+function Home({ coursesList, authorsList }) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleCreateCourse = () => {
     navigate('/courses/add');
   };
 
-  const [coursesList, setCoursesList] = useState([]);
-  const [authorsList, setAuthorsList] = useState([]);
+  // useEffect(() => {
+  // const allCourses = fetch('http://localhost:4000/courses/all', {
+  //   method: 'GET',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  // });
+  //
+  // const allAuthors = fetch('http://localhost:4000/authors/all', {
+  //   method: 'GET',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  // });
 
-  const [renderCoursesList, setRenderCoursesList] = useState(coursesList);
-
-  useEffect(() => {
-    const allCourses = fetch('http://localhost:4000/courses/all', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    const allAuthors = fetch('http://localhost:4000/authors/all', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    async function fetchData() {
-      const result = (await Promise.all([allCourses, allAuthors])).map((r) =>
-        r.json()
-      );
-      const [courses, authors] = await Promise.all(result);
-      setCoursesList(courses.result);
-      setAuthorsList(authors.result);
-    }
-    fetchData();
-  });
+  //   async function fetchData() {
+  //     const result = (
+  //       await Promise.all([
+  //         fetch('http://localhost:4000/courses/all', {
+  //           method: 'GET',
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //           },
+  //         }),
+  //         fetch('http://localhost:4000/authors/all', {
+  //           method: 'GET',
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //           },
+  //         }),
+  //       ])
+  //     ).map((r) => r.json());
+  //     const [courses, authors] = await Promise.all(result);
+  //     dispatch({ type: 'SET_COURSES', payload: courses.result });
+  //     dispatch({ type: 'SET_AUTHORS', payload: authors.result });
+  //   }
+  //   fetchData();
+  // }, []);
 
   const handleSearch = (searchItem) => {
     // setCoursesList(() => {
@@ -73,9 +83,15 @@ function Home() {
           text='Add new Course'
         />
       </div>
-      <Courses coursesList={coursesList} authorsList={authorsList} />
+      <Courses />
     </div>
   );
 }
+const mapStateToProps = (store) => {
+  return {
+    coursesList: store.courses.coursesList,
+    authorsList: store.authors.authorsList,
+  };
+};
 
-export default Home;
+export default connect(mapStateToProps)(Home);

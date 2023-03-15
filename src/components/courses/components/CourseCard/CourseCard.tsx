@@ -13,6 +13,8 @@ const CourseCard: React.FC<CourseCardProps> = ({
   authors,
   authorsList,
 }) => {
+  console.log(authorsList);
+
   return (
     <div className='course-card__container'>
       <div className='course-card__description-block'>
@@ -21,11 +23,11 @@ const CourseCard: React.FC<CourseCardProps> = ({
       </div>
       <div className='course-card__creation-info-container'>
         <p className='course-card__creation-info'>
-          <strong>Authors:</strong>{' '}
+          <strong>Authors:</strong>
           {authors.map((author, index) => (
             <span key={index}>
               {index > 0 ? ', ' : ''}
-              {authorsList.find((aut) => aut.id === author).name}
+              {authorsList.find((aut) => aut.id === author)?.name}
             </span>
           ))}
         </p>
