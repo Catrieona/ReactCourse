@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './SearchBar.css';
-import Button from '../../common/Button';
+import Button from '../../common/Button/Button';
 import { SearchBarProps } from './SearchBar.types';
 
 const SearchBar: React.FC<SearchBarProps> = ({ handleSearch }) => {

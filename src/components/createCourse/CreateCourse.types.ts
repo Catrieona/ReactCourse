@@ -1,6 +1,5 @@
+import { CourseCardProps } from '../courses/components/CourseCard/CourseCard.types';
+
 export interface CreateCourseProps {
-  setCoursesList: any;
-  setAuthorsList: any;
-  setCreateMode: any;
   authorsList: { id: string; name: string }[];
 }

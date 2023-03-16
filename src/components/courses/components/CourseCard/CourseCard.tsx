@@ -1,10 +1,11 @@
 import React from 'react';
 import './CourseCard.css';
 import { CourseCardProps } from './CourseCard.types';
-import Button from '../../../../common/Button';
 import { getCourseDuration } from '../../../../helpers/getCourseDuration';
+import { Link } from 'react-router-dom';
 
 const CourseCard: React.FC<CourseCardProps> = ({
+  id,
   title,
   creationDate,
   description,
@@ -12,6 +13,8 @@ const CourseCard: React.FC<CourseCardProps> = ({
   authors,
   authorsList,
 }) => {
+  console.log(authorsList);
+
   return (
     <div className='course-card__container'>
       <div className='course-card__description-block'>
@@ -20,11 +23,11 @@ const CourseCard: React.FC<CourseCardProps> = ({
       </div>
       <div className='course-card__creation-info-container'>
         <p className='course-card__creation-info'>
-          <strong>Authors:</strong>{' '}
+          <strong>Authors:</strong>
           {authors.map((author, index) => (
             <span key={index}>
               {index > 0 ? ', ' : ''}
-              {authorsList.find((aut) => aut.id === author).name}
+              {authorsList.find((aut) => aut.id === author)?.name}
             </span>
           ))}
         </p>
@@ -36,10 +39,9 @@ const CourseCard: React.FC<CourseCardProps> = ({
           <strong>Created:</strong>
           {creationDate}
         </p>
-        <Button
-          className='course-card__show-course-button'
-          text='Show course'
-        />
+        <Link className='course-card__show-course-button' to={`/course/${id}`}>
+          Show course
+        </Link>
       </div>
     </div>
   );

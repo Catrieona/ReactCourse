@@ -1,63 +1,34 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
-import Header from './components/header/Header';
-import Courses from './components/courses/Courses';
-import Button from './common/Button';
-import { mockedCoursesList, mockedAuthorsList } from './mocks';
-import SearchBar from './components/searchBar/SearchBar';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import Registration from './components/Registration/Registration';
+import Login from './components/Login/Login';
+import Home from './components/Home/Home';
 import CreateCourse from './components/createCourse/CreateCourse';
+import CourseInfo from './components/courses/components/CourseInfo/CourseInfo';
+import { connect } from 'react-redux';
 
-function App() {
-  const [createMode, setCreateMode] = useState(false);
-  const handleCreateCourse = () => {
-    setCreateMode(true);
-  };
-  const [coursesList, setCoursesList] = useState(mockedCoursesList);
-  const [authorsList, setAuthorsList] = useState(mockedAuthorsList);
-  const [renderCoursesList, setRenderCoursesList] = useState(mockedCoursesList);
-  const handleSearch = (searchItem) => {
-    setCoursesList(() => {
-      if (!searchItem.length) {
-        setRenderCoursesList(mockedCoursesList);
-      } else {
-        setRenderCoursesList(
-          mockedCoursesList.filter((course) => {
-            return course.title
-              .toLowerCase()
-              .includes(searchItem.toLowerCase());
-          })
-        );
-      }
-    });
-  };
-
+function App({ userName }) {
+  console.log(userName);
   return (
-    <div className='course-info-page'>
-      <Header />
-      {createMode ? (
-        <CreateCourse
-          setCoursesList={setCoursesList}
-          setAuthorsList={setAuthorsList}
-          authorsList={authorsList}
-          setCreateMode={setCreateMode}
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path='/'
+          element={<Navigate to={userName ? '/courses' : '/login'} />}
         />
-      ) : (
-        <>
-          <div className='course-info__search-block'>
-            <SearchBar handleSearch={handleSearch} />
-          </div>
-          <div className='course-info__add-new-course-block'>
-            <Button
-              className='course-info__new-course-button'
-              onClick={handleCreateCourse}
-              text='Add new Course'
-            />
-          </div>
-          <Courses coursesList={renderCoursesList} authorsList={authorsList} />
-        </>
-      )}
-    </div>
+        <Route path='/courses' element={<Home />} />
+        <Route path='/course/:id' element={<CourseInfo />} />
+        <Route path='/courses/add' element={<CreateCourse />} />
+        <Route path='/registration' element={<Registration />} />
+        <Route path='/login' element={<Login />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
-export default App;
+const mapStateToProps = (store) => ({
+  userName: store.user.name,
+});
+
+export default connect(mapStateToProps)(App);
