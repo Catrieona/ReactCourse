@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
 import ErrorModal from '../courses/components/ErrorModal/ErrorModal';
 import Header from '../header/Header';
 import Button from '../../common/Button/Button';
@@ -8,6 +10,7 @@ import './Login.css';
 import { LoginProps } from './Login.types';
 
 const Login: React.FC<LoginProps> = () => {
+  const dispatch = useDispatch();
   const [loginForm, setLoginForm] = useState({
     email: '',
     password: '',
@@ -37,8 +40,7 @@ const Login: React.FC<LoginProps> = () => {
       setErrors(result.errors);
       return;
     }
-    localStorage.setItem('user', result.result);
-    localStorage.setItem('userName', result.user.name);
+    dispatch({ type: 'LOGIN', payload: result });
     navigate('/');
   };
 

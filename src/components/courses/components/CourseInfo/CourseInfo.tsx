@@ -2,23 +2,20 @@ import React, { useEffect, useState } from 'react';
 import './CourseInfo.css';
 import { CourseInfoProps } from './CourseInfo.types';
 import { Link, useParams } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { CourseCardProps } from '../CourseCard/CourseCard.types';
 
-const CourseInfo: React.FC<CourseInfoProps> = () => {
+const CourseInfo: React.FC<CourseInfoProps> = ({
+  authorsList,
+  coursesList,
+}) => {
   const { id } = useParams();
   const [course, setCourse] = useState({});
-
   useEffect(() => {
-    const getCourse = fetch('http://localhost:4000/courses/' + id, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const currentCourse = coursesList.find((crs) => crs.id === id);
+    setCourse(currentCourse || {});
+  }, []);
 
-    getCourse
-      .then((response) => response.json())
-      .then((data) => setCourse(data.result));
-  });
   return (
     <div className='course-info__container'>
       <div>
@@ -41,13 +38,13 @@ const CourseInfo: React.FC<CourseInfoProps> = () => {
             <strong>Created</strong> : <span>{course.creationDate}</span>
           </p>
           <p>
-            <strong>Authors:</strong>{' '}
-            {/*{course.authors.map((author, index) => (*/}
-            {/*  <span key={index}>*/}
-            {/*    {index > 0 ? ', ' : ''}*/}
-            {/*    {authorsList.find((aut) => aut.id === author).name}*/}
-            {/*/!*  </span>*!/*/}
-            {/*))}*/}
+            <strong>Authors:</strong>
+            {course?.authors?.map((author, index) => (
+              <span key={index}>
+                {index > 0 ? ', ' : ''}
+                {authorsList.find((aut) => aut.id === author)?.name}
+              </span>
+            ))}
           </p>
         </div>
       </div>
@@ -55,4 +52,8 @@ const CourseInfo: React.FC<CourseInfoProps> = () => {
   );
 };
 
-export default CourseInfo;
+const mapStateToProps = (store) => ({
+  authorsList: store.authors.authorsList,
+  coursesList: store.courses.coursesList,
+});
+export default connect(mapStateToProps)(CourseInfo);
