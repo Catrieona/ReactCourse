@@ -4,6 +4,7 @@
   background-color: rgb(50,113,158);
   align-items: center;
   height:20vh;
+  margin-bottom: 20px;
 }
 .header-container__info-container {
   display: flex;

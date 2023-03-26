@@ -23,6 +23,20 @@
     margin-bottom: 10px;
 }
 
-.course-card__show-course-button {
-    margin-top: 15px;
+.course-card__show-course-button,
+.course-card__delete-course-button,
+.course-card__edit-course-button {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    text-decoration: none;
+    color: darkblue;
+    border: none;
+    background-color: transparent;
+    margin: 10px;
+    cursor: pointer;
+}
+.course-card__show-course-button:hover,
+.course-card__delete-course-button:hover,
+.course-card__edit-course-button:hover {
+    text-decoration: underline;
 }

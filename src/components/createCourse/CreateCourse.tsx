@@ -1,19 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../../common/Button/Button';
 import './CreateCourse.css';
 import { CreateCourseProps } from './CreateCourse.types';
 import { getCourseDuration } from '../../helpers/getCourseDuration';
-import { useNavigate } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { addNewAuthorAsync } from '../../store/authors/actions';
 
-const CreateCourse: React.FC<CreateCourseProps> = ({ authorsList }) => {
+const CreateCourse: React.FC<CreateCourseProps> = () => {
+  const authorsList = useSelector((store) => store.authors.authorsList);
+  const coursesList = useSelector((store) => store.courses.coursesList);
+
+  const userToken = useSelector((store) => store.user.token);
+  const { courseId } = useParams();
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [courseAuthors, setCourseAuthors] = useState([]);
   const [newAuthor, setNewAuthor] = useState('');
   const [duration, setDuration] = useState('');
+
+  useEffect(() => {
+    if (courseId) {
+      const editedCourse = coursesList.find((course) => course.id === courseId);
+      setTitle(editedCourse.title);
+      setDescription(editedCourse.description);
+      setDuration(editedCourse.duration);
+      setCourseAuthors(
+        authorsList.filter((author) => editedCourse.authors.includes(author.id))
+      );
+    }
+  }, [courseId]);
 
   const [errors, setErrors] = useState({
     title: false,
@@ -82,24 +102,27 @@ const CreateCourse: React.FC<CreateCourseProps> = ({ authorsList }) => {
     courseAuthors.forEach((auth) => {
       return courseAuthorsId.push(auth.id);
     });
-    const today = new Date('03/25/2015');
 
     const newCourseItem = {
-      id: Date.now(),
       title,
       description,
-      creationDate: today.toLocaleDateString(),
       duration,
       authors: courseAuthorsId,
     };
 
-    fetch('http://localhost:4000/courses/add', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newCourseItem),
-    }).then(() => {
+    fetch(
+      courseId
+        ? 'http://localhost:4000/courses/' + courseId
+        : 'http://localhost:4000/courses/add',
+      {
+        method: courseId ? 'PUT' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: userToken,
+        },
+        body: JSON.stringify(newCourseItem),
+      }
+    ).then(() => {
       navigate('/courses');
     });
   };
@@ -122,6 +145,7 @@ const CreateCourse: React.FC<CreateCourseProps> = ({ authorsList }) => {
       }));
       return;
     }
+    dispatch(addNewAuthorAsync(newAuthor));
   };
 
   const handleNewAuthor = (event) => {
@@ -151,7 +175,7 @@ const CreateCourse: React.FC<CreateCourseProps> = ({ authorsList }) => {
       <div className='create-course__button-container'>
         <Button
           className='create-course__add-new-course-button'
-          text='Add new Course'
+          text={courseId ? 'Update Course' : 'Add new Course'}
           type='submit'
         />
       </div>
@@ -179,6 +203,7 @@ const CreateCourse: React.FC<CreateCourseProps> = ({ authorsList }) => {
                 }`}
                 onChange={handleDescription}
                 placeholder='Enter description...'
+                value={description}
               />
             </label>
           </div>
@@ -260,8 +285,7 @@ const CreateCourse: React.FC<CreateCourseProps> = ({ authorsList }) => {
                     errors.courseAuthors ? 'error-authors' : ''
                   }`}
                 >
-                  {' '}
-                  Authors list is empty{' '}
+                  Authors list is empty
                 </strong>
               )}
             </div>
@@ -272,7 +296,4 @@ const CreateCourse: React.FC<CreateCourseProps> = ({ authorsList }) => {
   );
 };
 
-const mapStateToProps = (store) => ({
-  authorsList: store.authors.authorsList,
-});
-export default connect(mapStateToProps)(CreateCourse);
+export default CreateCourse;

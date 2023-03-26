@@ -1,8 +1,16 @@
 import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import CourseCard from './components/CourseCard/CourseCard';
-import { connect, useDispatch } from 'react-redux';
+import { getCoursesAction } from '../../store/courses/actions';
+import { getAuthorsAction } from '../../store/authors/actions';
+import { userRoleAction } from '../../store/user/actions';
+import './Courses.css';
 
-function Courses({ coursesList, authorsList }) {
+function Courses() {
+  const coursesList = useSelector((state) => state.courses.coursesList);
+  const authorsList = useSelector((state) => state.authors.authorsList);
+  const userToken = useSelector((state) => state.user.token);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,11 +29,19 @@ function Courses({ coursesList, authorsList }) {
               'Content-Type': 'application/json',
             },
           }),
+          fetch('http://localhost:4000/users/me', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: userToken,
+            },
+          }),
         ])
       ).map((r) => r.json());
-      const [courses, authors] = await Promise.all(result);
-      dispatch({ type: 'SET_COURSES', payload: courses.result });
-      dispatch({ type: 'SET_AUTHORS', payload: authors.result });
+      const [courses, authors, currentUser] = await Promise.all(result);
+      dispatch(getCoursesAction(courses.result));
+      dispatch(getAuthorsAction(authors.result));
+      dispatch(userRoleAction(currentUser.result.role));
     }
     fetchData();
   }, []);
@@ -48,8 +64,4 @@ function Courses({ coursesList, authorsList }) {
   );
 }
 
-const mapStateToProps = (store) => ({
-  coursesList: store.courses.coursesList,
-  authorsList: store.authors.authorsList,
-});
-export default connect(mapStateToProps)(Courses);
+export default Courses;
