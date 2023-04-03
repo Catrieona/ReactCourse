@@ -2,7 +2,9 @@ import React from 'react';
 import './CourseCard.css';
 import { CourseCardProps } from './CourseCard.types';
 import { getCourseDuration } from '../../../../helpers/getCourseDuration';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteCourseAsyncAction } from '../../../../store/courses/actions';
 
 const CourseCard: React.FC<CourseCardProps> = ({
   id,
@@ -13,10 +15,20 @@ const CourseCard: React.FC<CourseCardProps> = ({
   authors,
   authorsList,
 }) => {
-  console.log(authorsList);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isAdmin = useSelector((state) => state.user.role) === 'admin';
+
+  const handleCourseDelete = () => {
+    dispatch(deleteCourseAsyncAction(id));
+  };
+
+  const handleCourseUpdte = () => {
+    navigate('/courses/update/' + id);
+  };
 
   return (
-    <div className='course-card__container'>
+    <div className='course-card__container' data-testid={'course'}>
       <div className='course-card__description-block'>
         <h2>{title}</h2>
         <p className='course-card__description'>{description}</p>
@@ -42,6 +54,22 @@ const CourseCard: React.FC<CourseCardProps> = ({
         <Link className='course-card__show-course-button' to={`/course/${id}`}>
           Show course
         </Link>
+        {isAdmin && (
+          <>
+            <button
+              className='course-card__delete-course-button'
+              onClick={handleCourseDelete}
+            >
+              DEL
+            </button>
+            <button
+              className='course-card__edit-course-button'
+              onClick={handleCourseUpdte}
+            >
+              UPD
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

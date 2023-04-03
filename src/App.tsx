@@ -1,25 +1,42 @@
 import React from 'react';
-import './App.css';
+import { useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Registration from './components/Registration/Registration';
 import Login from './components/Login/Login';
 import Home from './components/Home/Home';
 import CreateCourse from './components/createCourse/CreateCourse';
 import CourseInfo from './components/courses/components/CourseInfo/CourseInfo';
-import { connect } from 'react-redux';
+import { PrivateRoute } from './components/PrivateRoute/PrivateRoute';
+import './App.css';
 
-function App({ userName }) {
-  console.log(userName);
+function App() {
+  const isAuth = useSelector((store) => store.user.isAuth);
+
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path='/'
-          element={<Navigate to={userName ? '/courses' : '/login'} />}
+          element={<Navigate to={isAuth ? '/courses' : '/login'} />}
         />
         <Route path='/courses' element={<Home />} />
         <Route path='/course/:id' element={<CourseInfo />} />
-        <Route path='/courses/add' element={<CreateCourse />} />
+        <Route
+          path='/courses/add'
+          element={
+            <PrivateRoute>
+              <CreateCourse />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path='/courses/update/:courseId'
+          element={
+            <PrivateRoute>
+              <CreateCourse />
+            </PrivateRoute>
+          }
+        />
         <Route path='/registration' element={<Registration />} />
         <Route path='/login' element={<Login />} />
       </Routes>
@@ -27,8 +44,4 @@ function App({ userName }) {
   );
 }
 
-const mapStateToProps = (store) => ({
-  userName: store.user.name,
-});
-
-export default connect(mapStateToProps)(App);
+export default App;

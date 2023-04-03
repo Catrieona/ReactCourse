@@ -1,21 +1,28 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import ErrorModal from '../courses/components/ErrorModal/ErrorModal';
 import Header from '../header/Header';
 import Button from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
-import './Login.css';
 import { LoginProps } from './Login.types';
+import { userLoginAction } from '../../store/user/actions';
+import './Login.css';
 
 const Login: React.FC<LoginProps> = () => {
+  const isAuth = useSelector((state) => state.user.isAuth);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loginForm, setLoginForm] = useState({
     email: '',
     password: '',
   });
   const [errors, setErrors] = useState([]);
+
+  if (isAuth) {
+    navigate('/courses');
+  }
 
   const handleFillRegForm = (event) => {
     setLoginForm((prev) => ({
@@ -24,7 +31,6 @@ const Login: React.FC<LoginProps> = () => {
     }));
   };
 
-  const navigate = useNavigate();
   const handleLogin = async (event) => {
     event.preventDefault();
     const response = await fetch('http://localhost:4000/login', {
@@ -40,8 +46,7 @@ const Login: React.FC<LoginProps> = () => {
       setErrors(result.errors);
       return;
     }
-    dispatch({ type: 'LOGIN', payload: result });
-    navigate('/');
+    dispatch(userLoginAction(result));
   };
 
   return (

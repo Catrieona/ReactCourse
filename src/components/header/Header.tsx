@@ -1,16 +1,25 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import './Header.css';
-import Button from '../../common/Button/Button';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Logo from './logo/Logo';
-import { connect, useDispatch } from 'react-redux';
+import Button from '../../common/Button/Button';
+import { userLogoutAsyncAction } from '../../store/user/actions';
+import './Header.css';
 
-function Header({ userName }) {
-  const dispatch = useDispatch();
+function Header() {
+  const userName = useSelector((store) => store.user.name);
+  const isAuth = useSelector((store) => store.user.isAuth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    !isAuth && pathname !== '/registration' && navigate('/login');
+  }, [isAuth]);
+
   const handleLogOut = () => {
-    dispatch({ type: 'LOGOUT' });
-    navigate('/');
+    dispatch(userLogoutAsyncAction());
+    navigate('/login');
   };
 
   const handleLogin = () => {
@@ -22,11 +31,13 @@ function Header({ userName }) {
       <div className='header-container__info-container'>
         <Logo />
         <div className='header-container__log-info'>
-          <span className='header-container__info-author'>{userName}</span>
+          <span className='header-container__info-author'>
+            {isAuth ? (userName ? userName : 'ADMIN') : ''}
+          </span>
           <Button
-            onClick={userName ? handleLogOut : handleLogin}
+            onClick={isAuth ? handleLogOut : handleLogin}
             className='header-container__logout-button'
-            text={userName ? 'logout' : 'login'}
+            text={isAuth ? 'logout' : 'login'}
           />
         </div>
       </div>
@@ -34,8 +45,4 @@ function Header({ userName }) {
   );
 }
 
-const mapStateToProps = (store) => ({
-  userName: store.user.name,
-});
-
-export default connect(mapStateToProps)(Header);
+export default Header;
