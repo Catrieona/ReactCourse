@@ -28,7 +28,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
   };
 
   return (
-    <div className='course-card__container'>
+    <div className='course-card__container' data-testid={'course'}>
       <div className='course-card__description-block'>
         <h2>{title}</h2>
         <p className='course-card__description'>{description}</p>
